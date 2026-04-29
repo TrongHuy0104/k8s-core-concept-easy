@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog-api
+  namespace: catalog-tronghuy0104
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: catalog-api
+  template:
+    metadata:
+      labels:
+        app: catalog-api
+    spec:
+      containers:
+        - name: catalog-api
+          image: tronghuy0104/catalog-api:0.1.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: postgres-service
+            - name: DB_PORT
+              value: "5432"
+            - name: DB_USERNAME
+              value: cataloguser
+            - name: DB_PASSWORD
+              value: catalogpass
+            - name: DB_DATABASE
+              value: catalogdb
+            - name: REDIS_HOST
+              value: catalog-redis
+            - name: REDIS_PORT
+              value: "6379"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 5

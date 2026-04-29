@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres-pod
+  namespace: catalog-tronghuy0104
+  labels:
+    app: catalog-postgres
+spec:
+  containers:
+    - name: postgres
+      image: postgres:16
+      ports:
+        - containerPort: 5432
+      env:
+        - name: POSTGRES_DB
+          value: catalogdb
+        - name: POSTGRES_USER
+          value: cataloguser
+        - name: POSTGRES_PASSWORD
+          value: catalogpass
